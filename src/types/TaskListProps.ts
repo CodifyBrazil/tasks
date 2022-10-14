@@ -5,3 +5,10 @@ export type TaskListProps ={
     expireAt: string;
     isDone: boolean;
 }
+
+export type trashProps = {
+    id: number;
+    name: string;
+    insertAt: string;
+    isDone: boolean;
+}
