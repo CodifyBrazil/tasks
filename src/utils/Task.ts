@@ -45,7 +45,7 @@ export const taskIntance = {
 
 export const trashInstance = {
   getTrashAll: async (params?: string) => {
-    debugger
+    //add filter params
     let data = await axiosInstance.get(`/trash${params ? `?${params}` : ""}`);
     return data;
   },
