@@ -77,10 +77,10 @@ export const MenuOPtions = () => {
   return (
     <Flex
       bgColor={"white"}
-      w="40%"
+      w={{base: '100%', md: '60%', lg: '60%', '2xl': '40%'}} 
       h="50px"
       pos={"absolute"}
-      ml="30%"
+      ml={{base: '0', md: '20%', lg: '20%', '2xl': '30%'}} 
       mt="220px"
       align={"center"}
       justify="flex-end"
