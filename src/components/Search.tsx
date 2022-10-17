@@ -25,7 +25,7 @@ export const Search = () => {
             display={'flex'}
             flexDirection='column'
             bg={'#fff'} 
-            w='40%' 
+            w={{base: '100%', md: '60%', lg: '60%', '2xl': '40%'}} 
             h='150px' 
             mt='60px'
             border={'1px solid #fff'} 
@@ -51,7 +51,7 @@ export const Search = () => {
 
                 <Box display={'flex'} m='auto' mt='-5px'>
 
-                    <Box display={'inline-block'} w='230px'>
+                    <Box display={'inline-block'} mr='10px' w={{base: '100%', md: '60%', lg: '60%', '2xl': '230px'}} >
                         <RadioGroup borderRight={'2px solid #ccc'} onChange={setValue} value={value}>
                         <Stack direction='row'>
                             <Radio value='0' size={'sm'} colorScheme='blue'>Todos</Radio>

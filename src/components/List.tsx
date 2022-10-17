@@ -10,7 +10,7 @@ export const List = () => {
                 display={'flex'}
                 flexDirection='column'
                 bg={'#fff'} 
-                w='40%' 
+                w={{base: '100%', md: '60%', lg: '60%', '2xl': '40%'}}  
                 maxH={'600px'}
                 mt='280px'
                 border={'1px solid #fff'} 
