@@ -6,12 +6,9 @@ const axiosInstance = axios.create({
 });
 
 export const taskIntance = {
-  getAll: async (id?: number) => {
-    let { data } = await axiosInstance.get('/todos');
-    return data;
-  },
-  getTaskId: async (id: number) => {
-    let { data } = await axiosInstance.get(`/todos/${id}`);
+  getAll: async (id?: number, params?: string) => {
+    const mountParams = id?'/todos/'+id:'/todos'
+    let { data } = await axiosInstance.get(mountParams);
     return data;
   },
   updateTaskId: async ({
@@ -55,7 +52,7 @@ export const trashInstance = {
     // name: Pizza navigate Island Moroccan Dirham
     // insertAt: new Date
 
-    let dataTask = await taskIntance.getTaskId(id);
+    let dataTask = await taskIntance.getAll(id);
     //console.log(dataTask);
   },
 };

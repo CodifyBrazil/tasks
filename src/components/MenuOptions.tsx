@@ -20,7 +20,7 @@ import {
 import { FaTrashAlt, FaPlusSquare, FaShareSquare } from "react-icons/fa";
 import { useEffect, useState, useContext } from "react";
 
-import { trashInstance } from "../utils/Task";
+import { trashInstance } from "../service/api";
 import { trashProps } from "../types/TaskListProps";
 import React from "react";
 
@@ -69,8 +69,6 @@ export const MenuOPtions = () => {
     });
     setValueTrash(data);
    }
-
-   console.log(valueTrash);
 
   return (
     <Flex

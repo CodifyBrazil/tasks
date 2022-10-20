@@ -2,7 +2,7 @@ import { Box, Text, Checkbox, useToast, Spinner, Link } from '@chakra-ui/react';
 import { BsFillCheckCircleFill, BsFillExclamationTriangleFill, BsFillTrashFill } from "react-icons/bs";
 
 import { useEffect, useState, } from 'react';
-import { taskIntance } from '../utils/Task';
+import { taskIntance } from '../service/api';
 import { TaskListProps } from '../types/TaskListProps';
 import './style.css';
 import React from 'react';
@@ -28,7 +28,7 @@ export default () => {
         let idNumber: number = parseInt(id);
         try {
             setLoading(true);
-            let data = await taskIntance.getTaskId(idNumber);
+            let data = await taskIntance.getAll(idNumber);
             let object: TaskListProps = {
                 id: idNumber,
                 name: data.name,
