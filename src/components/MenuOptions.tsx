@@ -43,29 +43,7 @@ export const MenuOPtions = () => {
   const [overlay, setOverlay] = useState(<OverlayTwo />);
 
   const getDaysInTrash = (indexArray: number) => {
-    debugger;
-    const dateInsertTrash = moment(valueTrash[indexArray].insertAt);
-
-    const daysPermitionTrash: number = 15;
-    const trashDateAddDays = moment(new Date()).add(daysPermitionTrash, "days");
-    const diff = moment(dateInsertTrash).diff(moment(trashDateAddDays));
-    const dueDate = moment.duration(diff).asDays();
-
-    const diff2 = moment(dateInsertTrash, "DD-MM-YYYY").diff(
-      moment(trashDateAddDays, "DD-MM-YYYY")
-    );
-    const response = moment.duration(diff2).asDays();
-
-    const diferenca = moment.duration({
-      days: trashDateAddDays.date() - dateInsertTrash.date(),
-    });
-
-    const dateNow = moment();
-
-    const sum = diferenca.asDays() - dateNow.date();
-
-    console.log(`${diferenca.asDays()} - ${dateNow.date()} = ${sum}`);
-    return dueDate;
+    return;
   };
 
   const getValueTrash = async () => {
@@ -137,8 +115,7 @@ export const MenuOPtions = () => {
                       mt="3px"
                       color={"#606060"}
                     >
-                      {" "}
-                      {item.name}{" "}
+                      {item.name}
                     </Text>
                   </Box>
                   <Box display={"flex"} alignItems="center" mt="5px">

@@ -6,8 +6,8 @@ const axiosInstance = axios.create({
 });
 
 export const taskIntance = {
-  getAll: async () => {
-    let { data } = await axiosInstance.get("/todos");
+  getAll: async (id?: number) => {
+    let { data } = await axiosInstance.get('/todos');
     return data;
   },
   getTaskId: async (id: number) => {
@@ -31,7 +31,7 @@ export const taskIntance = {
       });
       return true;
     } catch (e) {
-      return false;
+        return false;
     }
   },
   deleteTaskId: async (id: string) => {
