@@ -5,27 +5,28 @@ import { useEffect, useState, } from 'react';
 import { taskIntance } from '../utils/Task';
 import { TaskListProps } from '../types/TaskListProps';
 import './style.css';
+import React from 'react';
 
-export const Task = () => {
+export default () => {
     const toast = useToast();
-    
-    useEffect(()=>{
-        getList()
+
+    useEffect(() => {
+        getList();
     }, []);
 
-    const [loading, setLoading] = useState<boolean>(false); 
+    const [loading, setLoading] = useState<boolean>(false);
     const [item, setItem] = useState<TaskListProps[]>([]);
 
     const getList = async () => {
         setLoading(true);
-        setItem(await taskIntance.getAll()); 
+        setItem(await taskIntance.getAll());
         setLoading(false);
-    }
-    
+    };
+
     const handleComplete = async (id: string) => {
-        
+
         let idNumber: number = parseInt(id);
-        try{     
+        try {
             setLoading(true);
             let data = await taskIntance.getTaskId(idNumber);
             let object: TaskListProps = {
@@ -33,22 +34,22 @@ export const Task = () => {
                 name: data.name,
                 createAt: data.createAt,
                 expireAt: data.expireDate,
-                isDone: (data.isDone)?false:true
-            }
+                isDone: (data.isDone) ? false : true
+            };
             await taskIntance.updateTaskId(object);
             getList();
             setLoading(false);
-            
+
             toast({
-                title: (data.isDone)?'Tarefa desfeita':'Tarefa Concluida',
+                title: (data.isDone) ? 'Tarefa desfeita' : 'Tarefa Concluida',
                 //description: "Já atualizamos no banco de dados.",
-                status: (data.isDone)?'info':'success',
+                status: (data.isDone) ? 'info' : 'success',
                 duration: 2000,
                 isClosable: true,
-                icon: <BsFillCheckCircleFill width={'20px'}/>
+                icon: <BsFillCheckCircleFill width={'20px'} />
             });
         }
-        catch(e){
+        catch (e) {
             toast({
                 title: `Item ${idNumber} não foi modificado`,
                 //description: "Aconteceu um erro ao atualizar.",
@@ -58,10 +59,10 @@ export const Task = () => {
                 icon: <BsFillExclamationTriangleFill />
             });
         }
-    }
+    };
 
     const handleDeleteTask = async (id: string) => {
-        try{
+        try {
             await taskIntance.deleteTaskId(id);
             toast({
                 title: `Item ${id} foi excluido com sucesso.`,
@@ -72,56 +73,52 @@ export const Task = () => {
                 icon: <BsFillTrashFill />
             });
         }
-        catch(e){
+        catch (e) {
             console.log(`Error Task.TSX: ${e}`);
         }
-    }
+    };
 
     return (
         <div>
-            {loading&&
+            {loading &&
                 <Spinner
-                ml='45%'
-                mt='10px'
-                mb='10px'
-                thickness='4px'
-                speed='0.65s'
-                emptyColor='gray.200'
-                color='blue.500'
-                size='xl'
-                />
-            }
+                    ml='45%'
+                    mt='10px'
+                    mb='10px'
+                    thickness='4px'
+                    speed='0.65s'
+                    emptyColor='gray.200'
+                    color='blue.500'
+                    size='xl' />}
             {item.map((item, index) => (
-            <Box 
-            key={index}
-            _hover={{background:"#fafafa", cursor:"pointer"}}
-            w={'97%'} 
-            border={'1px solid #fafafa'} 
-            m='auto'
-            h='35px'
-            mt='3px'>
+                <Box
+                    key={index}
+                    _hover={{ background: "#fafafa", cursor: "pointer" }}
+                    w={'97%'}
+                    border={'1px solid #fafafa'}
+                    m='auto'
+                    h='35px'
+                    mt='3px'>
 
-                {item.isDone&&
-                <Box display={'flex'} justifyContent='space-between' bg='#fafafa' h='35px'>
-                    <Box display={'flex'} alignItems='center'>
-                        <Text as='del' alignItems={'center'} ml='10px' mt='3px' color={'#ccc'}>{item.name}</Text>
-                    </Box>
-                    <Box display='flex' alignItems={'center'}>
-                        <Link onClick={(e) => handleDeleteTask(`${item.id}`)} fontSize={'14px'} textColor={'red.300'} mr='10px'>Excluir</Link>
-                        <Checkbox className='checkbox' mr='10px' onChange={(e) => handleComplete(`${item.id}`)}defaultChecked></Checkbox>
-                    </Box>
-                </Box>
-                }
+                    {item.isDone &&
+                        <Box display={'flex'} justifyContent='space-between' bg='#fafafa' h='35px'>
+                            <Box display={'flex'} alignItems='center'>
+                                <Text as='del' alignItems={'center'} ml='10px' mt='3px' color={'#ccc'}>{item.name}</Text>
+                            </Box>
+                            <Box display='flex' alignItems={'center'}>
+                                <Link onClick={(e) => handleDeleteTask(`${item.id}`)} fontSize={'14px'} textColor={'red.300'} mr='10px'>Excluir</Link>
+                                <Checkbox className='checkbox' mr='10px' onChange={(e) => handleComplete(`${item.id}`)} defaultChecked></Checkbox>
+                            </Box>
+                        </Box>}
 
-                {!item.isDone&&
-                <Box display={'flex'} justifyContent='space-between'>
-                    <Text alignItems={'center'} ml='10px' mt='3px' color={'#606060'}>{item.name}</Text>
-                    <Checkbox className='checkbox' mr='10px' onChange={(e) => handleComplete(`${item.id}`)}></Checkbox>
+                    {!item.isDone &&
+                        <Box display={'flex'} justifyContent='space-between'>
+                            <Text alignItems={'center'} ml='10px' mt='3px' color={'#606060'}>{item.name}</Text>
+                            <Checkbox className='checkbox' mr='10px' onChange={(e) => handleComplete(`${item.id}`)}></Checkbox>
+                        </Box>}
                 </Box>
-                }
-            </Box>
             ))}
-            
+
         </div>
     );
-}
+};

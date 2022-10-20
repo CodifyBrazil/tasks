@@ -18,15 +18,19 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { FaTrashAlt, FaPlusSquare, FaShareSquare } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import moment from "moment";
+import { useEffect, useState, useContext } from "react";
 
 import { trashInstance } from "../utils/Task";
-import { trashProps, TaskListProps } from "../types/TaskListProps";
+import { trashProps } from "../types/TaskListProps";
+import React from "react";
 
 export const MenuOPtions = () => {
   useEffect(() => {
-    getValueTrash();
+    getAllTrash();
+  }, []);
+
+  useEffect(() => {
+    getAllTrash();
   }, []);
 
   const OverlayTwo = () => (
@@ -42,15 +46,31 @@ export const MenuOPtions = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = useState(<OverlayTwo />);
 
-  const getDaysInTrash = (indexArray: number) => {
-    return;
-  };
+  const daysTrashPermission = 15
+  const dateCurrent = new Date();
 
-  const getValueTrash = async () => {
-    const dataFiltro = new Date(new Date().getFullYear(), new Date().getMonth(), (new Date().getDate() - 15));
-    let { data } = await trashInstance.getTrashAll(`insertAt >= ${dataFiltro}`);
+  
+
+   const getAllTrash = async () => {
+
+    const {data}  = await trashInstance.getTrashAll();
+
+    const updateDateForDeletePermanent = data.map((item) => {
+      const days = dateCurrent.getDate() - new Date(item.insertAt).getDate()
+      if(days >= daysTrashPermission) {
+        // console.log('excluido')
+        // await deleteitem(item.id)
+      } else {
+        return (days>=daysTrashPermission)?{
+          ...item,
+          days: dateCurrent.getDate() - new Date(item.insertAt).getDate()
+        }:{}
+      }
+    });
     setValueTrash(data);
-  };
+   }
+
+   console.log(valueTrash);
 
   return (
     <Flex
@@ -64,6 +84,8 @@ export const MenuOPtions = () => {
       justify="flex-end"
       boxShadow={"md"}
     >
+   
+
       <Box>
         <Button
           onClick={() => {
@@ -94,7 +116,7 @@ export const MenuOPtions = () => {
           <ModalCloseButton />
           <ModalBody>
             <Badge colorScheme={"orange"}>
-              Os itens da lixeira seram excluidos permanentemente em 15 dias
+              Os itens da lixeira seram excluidos permanentemente em {daysTrashPermission} dias
             </Badge>
             <hr />
             {valueTrash.map((item, index) => (
@@ -120,13 +142,11 @@ export const MenuOPtions = () => {
                   </Box>
                   <Box display={"flex"} alignItems="center" mt="5px">
                     <Tooltip
-                      label={`${getDaysInTrash(
-                        index
-                      )} dias para ser excluido para sempre`}
+                      label={`${item.days} dia${(item.days > 1?'s':'')} para ser excluido para sempre`}
                       placement="auto"
                     >
                       <Badge colorScheme={"red"} mr="15px">
-                        14 dias
+                        {item.days} dias
                       </Badge>
                     </Tooltip>
 

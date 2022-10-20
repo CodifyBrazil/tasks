@@ -4,7 +4,7 @@ import { TaskListProps } from "../types/TaskListProps";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000",
 });
-// TaskInstances 
+
 export const taskIntance = {
   getAll: async (id?: number) => {
     let { data } = await axiosInstance.get('/todos');

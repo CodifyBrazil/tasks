@@ -9,6 +9,7 @@ export type TaskListProps ={
 export type trashProps = {
     id: number;
     name: string;
+    days: number;
     insertAt: string;
     isDone: boolean;
 }

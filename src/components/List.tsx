@@ -1,5 +1,6 @@
 import {Flex, Box, Spinner, Text} from '@chakra-ui/react';
-import { Task } from './Task';
+import React from 'react';
+import Task from './Task';
 
 export const List = () => {
     
