@@ -4,7 +4,6 @@ import { BsFillCheckCircleFill, BsFillExclamationTriangleFill, BsFillTrashFill }
 import { useEffect, useState, } from 'react';
 import { taskIntance } from '../service/api';
 import { TaskListProps } from '../types/TaskListProps';
-import './style.css';
 import React from 'react';
 
 export default () => {

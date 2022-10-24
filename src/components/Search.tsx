@@ -11,6 +11,7 @@ import {
 import { RiSearch2Line } from "react-icons/ri";
 import { useState } from 'react';
 import moment from "moment";
+import React from "react";
 
 
 export const Search = () => {
