@@ -19,7 +19,8 @@ export default () => {
 
     const getList = async () => {
         setLoading(true);
-        setItem(await taskIntance.getAll());
+        const params = '';
+        setItem(await taskIntance.getAll({params}));
         setLoading(false);
     };
 
@@ -28,7 +29,7 @@ export default () => {
         let idNumber: number = parseInt(id);
         try {
             setLoading(true);
-            let data = await taskIntance.getAll(idNumber);
+            let data = await taskIntance.getAll({id: idNumber});
             let object: TaskListProps = {
                 id: idNumber,
                 name: data.name,

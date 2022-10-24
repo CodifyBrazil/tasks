@@ -5,9 +5,15 @@ const axiosInstance = axios.create({
   baseURL: "http://localhost:3000",
 });
 
+
+interface Props {
+  id?: number
+  params?: string
+}
+
 export const taskIntance = {
-  getAll: async (id?: number, params?: string) => {
-    const mountParams = id?'/todos/'+id:'/todos'
+  getAll: async ({id, params}: Props) => {
+    const mountParams = id?'/todos/'+id:'/todos'+params
     let { data } = await axiosInstance.get(mountParams);
     return data;
   },
@@ -52,7 +58,6 @@ export const trashInstance = {
     // name: Pizza navigate Island Moroccan Dirham
     // insertAt: new Date
 
-    let dataTask = await taskIntance.getAll(id);
-    //console.log(dataTask);
+    let dataTask = await taskIntance.getAll({id});
   },
 };
