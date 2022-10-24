@@ -1,12 +1,17 @@
 import { Box, Text, Checkbox, useToast, Spinner, Link } from '@chakra-ui/react';
 import { BsFillCheckCircleFill, BsFillExclamationTriangleFill, BsFillTrashFill } from "react-icons/bs";
 
-import { useEffect, useState, } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { taskIntance } from '../service/api';
 import { TaskListProps } from '../types/TaskListProps';
 import React from 'react';
 
+import { ExempleContext } from '../context/global';
+
 export default () => {
+
+    const {getAllTask} = useContext(ExempleContext);
+
     const toast = useToast();
 
     useEffect(() => {
@@ -18,8 +23,8 @@ export default () => {
 
     const getList = async () => {
         setLoading(true);
-        const params = '';
-        setItem(await taskIntance.getAll({params}));
+        const params = '?_limit=20';
+        setItem(await getAllTask({params}));
         setLoading(false);
     };
 
@@ -28,7 +33,7 @@ export default () => {
         let idNumber: number = parseInt(id);
         try {
             setLoading(true);
-            let data = await taskIntance.getAll({id: idNumber});
+            let data = await getAllTask({id: idNumber});
             let object: TaskListProps = {
                 id: idNumber,
                 name: data.name,
@@ -52,7 +57,7 @@ export default () => {
         catch (e) {
             toast({
                 title: `Item ${idNumber} não foi modificado`,
-                //description: "Aconteceu um erro ao atualizar.",
+                description: `Erro: ${e}`,
                 status: 'error',
                 duration: 2000,
                 isClosable: true,
@@ -90,7 +95,7 @@ export default () => {
                     emptyColor='gray.200'
                     color='blue.500'
                     size='xl' />}
-            {item.map((item, index) => (
+            {item.length > 2 && item.map((item, index) => (
                 <Box
                     key={index}
                     _hover={{ background: "#fafafa", cursor: "pointer" }}
@@ -118,6 +123,34 @@ export default () => {
                         </Box>}
                 </Box>
             ))}
+
+
+
+                <Box
+                    _hover={{ background: "#fafafa", cursor: "pointer" }}
+                    w={'97%'}
+                    border={'1px solid #fafafa'}
+                    m='auto'
+                    h='35px'
+                    mt='3px'>
+
+                    {item.isDone &&
+                        <Box display={'flex'} justifyContent='space-between' bg='#fafafa' h='35px'>
+                            <Box display={'flex'} alignItems='center'>
+                                <Text as='del' alignItems={'center'} ml='10px' mt='3px' color={'#ccc'}>{item.name}</Text>
+                            </Box>
+                            <Box display='flex' alignItems={'center'}>
+                                <Link onClick={(e) => handleDeleteTask(`${item.id}`)} fontSize={'14px'} textColor={'red.300'} mr='10px'>Excluir</Link>
+                                <Checkbox className='checkbox' mr='10px' onChange={(e) => handleComplete(`${item.id}`)} defaultChecked></Checkbox>
+                            </Box>
+                        </Box>}
+
+                    {!item.isDone &&
+                        <Box display={'flex'} justifyContent='space-between'>
+                            <Text alignItems={'center'} ml='10px' mt='3px' color={'#606060'}>{item.name}</Text>
+                            <Checkbox className='checkbox' mr='10px' onChange={(e) => handleComplete(`${item.id}`)}></Checkbox>
+                        </Box>}
+                </Box>
 
         </div>
     );

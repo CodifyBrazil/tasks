@@ -5,17 +5,17 @@ import { List } from './components/List';
 import { MenuOPtions } from './components/MenuOptions';
 
 import './App.css';
-import { GlobalProvider } from './context/global';
+import { ExempleProvider } from './context/global';
 
 const App = () => {
 
   return (
-    <GlobalProvider>
+    <ExempleProvider>
       <Header title='TodoList'/>
       <Search />
       <MenuOPtions />
       <List />
-    </GlobalProvider>
+    </ExempleProvider>
   )
 }
 

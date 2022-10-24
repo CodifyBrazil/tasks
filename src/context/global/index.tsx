@@ -1,47 +1,30 @@
-import React, { createContext, ReactNode, useState , useContext} from "react";
-import { TaskListProps } from '../../types/TaskListProps';
-import { taskIntance } from '../../service/api'
+import React, { createContext, ReactNode, } from "react";
 
-interface T {
+import { taskIntance } from '../../service/api';
+import { TaskListProps } from '../../types/TaskListProps';
+
+interface Props {
     id?: number
     params?: string
   }
 
-interface Props {
-    name: string;
-    fn?: (name: string) => void;
-    getSearchParams: (props: T) => Promise<TaskListProps[]>;
-
+interface ExempleProps {
+    getAllTask: (props: Props) => Promise<TaskListProps[]>
 }
 
 
+const getAllTask = async ({id, params}: Props) => {
+    const tasksList = await taskIntance.getAll({id, params});
 
-export const GlobaContext = createContext({} as Props);
+    return tasksList;
+}
 
-export const GlobalProvider = ({children}: {children: ReactNode}) => {
+export const ExempleContext = createContext( {} as ExempleProps);
 
-    const [name, setName] = useState('Rafael');
-
-    const [search, setSearch] = useState<string>('');
-    
-    const getSearchParams = async ({params}: T) => {
-        const { data } = await taskIntance.getAll({params: params});
-        
-      
-
-        return data
-    }
-    const fn = (name: string) => setName(name);
-
-    return (
-        <GlobaContext.Provider value={{name, getSearchParams}}>
-            {children}
-        </GlobaContext.Provider>
+export const ExempleProvider = ({children}: {children: ReactNode}) => {
+    return(
+    <ExempleContext.Provider value={{getAllTask}}>
+        {children}
+    </ExempleContext.Provider>
     )
 }
-
-
-
-
-
-export const useGlobal = () => useContext(GlobaContext)

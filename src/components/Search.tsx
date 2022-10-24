@@ -9,15 +9,23 @@ import {
         Text,
         Stack } from "@chakra-ui/react";
 import { RiSearch2Line } from "react-icons/ri";
-import { useState } from 'react';
 import moment from "moment";
 import React from "react";
-
+import { useState, useContext } from 'react';
+import { ExempleContext } from '../context/global';
 
 export const Search = () => {
 
+    const {getAllTask} = useContext(ExempleContext);
+
     const [value, setValue] = useState('0');
     const [data, setData] = useState(() => moment().format('YYYY-M-D'));
+
+    const getInputSearch = async (search:string) => {
+        const params = `?q=${search}`;        
+        let data = await getAllTask({params});
+        console.log(data)
+    }
     
 
     return (
@@ -46,7 +54,7 @@ export const Search = () => {
                         bg='blue.500' 
                         color={'white'} 
                         fontSize='15px'/>
-                        <Input type='text' placeholder='Pesquisar tarefa'/>
+                        <Input type='text' placeholder='Pesquisar tarefa'onChange={(e) => getInputSearch(e.target.value)}/>
                     </InputGroup>
                 </Box>
 
